@@ -1,0 +1,65 @@
+@startuml
+
+package pe.edu.ulima.is2.model {
+    class VideoGame {
+        - Long id
+        - String title
+        - String platform
+        - Double price
+        - Integer stock
+        + VideoGame()
+        + VideoGame(Long, String, String, Double, Integer)
+        + getId(): Long
+        + setId(Long)
+        + getTitle(): String
+        + setTitle(String)
+        + getPlatform(): String
+        + setPlatform(String)
+        + getPrice(): Double
+        + setPrice(Double)
+        + getStock(): Integer
+        + setStock(Integer)
+        + toString(): String
+    }
+}
+
+package pe.edu.ulima.is2.repository {
+    interface VideoGameRepository {
+        + save(VideoGame): VideoGame
+        + findById(Long): Optional<VideoGame>
+        + findAll(): List<VideoGame>
+        + update(VideoGame): VideoGame
+        + deleteById(Long)
+    }
+
+    class InMemoryVideoGameRepository {
+        - Map<Long, VideoGame> games
+        - AtomicLong idGenerator
+        + save(VideoGame): VideoGame
+        + findById(Long): Optional<VideoGame>
+        + findAll(): List<VideoGame>
+        + update(VideoGame): VideoGame
+        + deleteById(Long)
+    }
+}
+
+package pe.edu.ulima.is2.service {
+    class SalesService {
+        - VideoGameRepository repository
+        + SalesService(VideoGameRepository)
+        + processSale(Long, Integer): Double
+    }
+}
+
+class Main {
+    + main(String[] args)
+}
+
+VideoGameRepository <|.. InMemoryVideoGameRepository
+SalesService o-- VideoGameRepository
+Main --> SalesService
+Main --> VideoGameRepository
+InMemoryVideoGameRepository "1" *-- "*" VideoGame : manages >
+SalesService ..> VideoGame : uses >
+
+@enduml
