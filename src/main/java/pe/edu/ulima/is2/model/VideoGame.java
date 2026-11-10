@@ -1,8 +1,5 @@
 package pe.edu.ulima.is2.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 public class VideoGame {
     private Long id;
